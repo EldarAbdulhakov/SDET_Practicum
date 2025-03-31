@@ -9,7 +9,7 @@ import java.time.Duration;
 public abstract class BasePage {
 
     private final WebDriver driver;
-    private WebDriverWait wait5;
+    private WebDriverWait driverWait;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -20,10 +20,10 @@ public abstract class BasePage {
         return driver;
     }
 
-    protected WebDriverWait getWait5() {
-        if (wait5 == null) {
-            wait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+    protected WebDriverWait getDriverWait() {
+        if (driverWait == null) {
+            driverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         }
-        return wait5;
+        return driverWait;
     }
 }

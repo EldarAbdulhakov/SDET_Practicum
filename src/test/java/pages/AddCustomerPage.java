@@ -19,10 +19,7 @@ public class AddCustomerPage extends BasePage {
     private static String randomFirstName;
     private static final String LAST_NAME = "Petrov";
     private static final String DELETE_CUSTOMER_PATH = "//tbody/tr/td[text()='%s']/..//button[@ng-click='deleteCust(cust)']";
-
-    public static final List<String> REVERSE_SORT_FIRST_NAMES = List.of("Ron", "Neville", "Hermoine", "Harry", "Albus");
-    public static final List<String> SORT_FIRST_NAMES = List.of("Albus", "Harry", "Hermoine", "Neville", "Ron");
-    public static final String DELETE_NAME = "Harry";
+    public static String expectedDeleteName;
 
     @FindBy(xpath = "//button[@ng-click='addCust()']")
     private WebElement addCustomerButton;
@@ -90,22 +87,51 @@ public class AddCustomerPage extends BasePage {
         return randomFirstName;
     }
 
-    @Step("Wait until open")
-    public AddCustomerPage waitUntilOpen() {
-        getWait5().until(ExpectedConditions.invisibilityOf(logo));
+    public List<String> getSortFirstNames() {
+        return getDriverWait().until(ExpectedConditions.visibilityOfAllElements(nameListElements))
+                .stream()
+                .map(WebElement::getText)
+                .sorted()
+                .toList();
+    }
+
+    public List<String> getReverseSortFirstNames() {
+        return getDriverWait().until(ExpectedConditions.visibilityOfAllElements(nameListElements))
+                .stream()
+                .map(WebElement::getText)
+                .sorted(Comparator.reverseOrder())
+                .toList();
+    }
+
+    @Step("Wait until open home page")
+    public AddCustomerPage waitUntilOpenHomePage() {
+        getDriverWait().until(ExpectedConditions.invisibilityOf(logo));
+        return this;
+    }
+
+    @Step("Wait until open customers page")
+    public AddCustomerPage waitUntilOpenCustomersPage() {
+        waitUntilOpenHomePage()
+                .clickCustomersButton();
+        return this;
+    }
+
+    @Step("Wait until open customers page")
+    public AddCustomerPage waitUntilOpenAddCustomerPage() {
+        waitUntilOpenHomePage()
+                .clickAddCustomerButton();
         return this;
     }
 
     @Step("Click \"Add Customer\" button")
-    public AddCustomerPage clickAddCustomerButton() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(addCustomerButton)).click();
-        return this;
+    public void clickAddCustomerButton() {
+        getDriverWait().until(ExpectedConditions.elementToBeClickable(addCustomerButton)).click();
     }
 
     @Step("Input post code")
     public AddCustomerPage inputPostCode() {
         randomPostCode = getPostCode();
-        getWait5().until(ExpectedConditions.elementToBeClickable(postCodeField)).sendKeys(randomPostCode);
+        getDriverWait().until(ExpectedConditions.elementToBeClickable(postCodeField)).sendKeys(randomPostCode);
         return this;
     }
 
@@ -130,29 +156,38 @@ public class AddCustomerPage extends BasePage {
 
     @Step("Click \"OK\" button on alert")
     public AddCustomerPage alertAccept() {
-        getWait5().until(ExpectedConditions.alertIsPresent());
+        getDriverWait().until(ExpectedConditions.alertIsPresent());
         getDriver().switchTo().alert().accept();
         return this;
     }
 
     @Step("Click \"Customers\" button")
     public AddCustomerPage clickCustomersButton() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(customersButton)).click();
+        getDriverWait().until(ExpectedConditions.elementToBeClickable(customersButton)).click();
         return this;
     }
 
     @Step("Click \"First name\" link")
     public AddCustomerPage clickFirstNameLink() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(firstNameLink)).click();
+        getDriverWait().until(ExpectedConditions.elementToBeClickable(firstNameLink)).click();
         return this;
     }
 
     @Step("Get first names list")
     public List<String> getFirstNamesList() {
-        return getWait5().until(ExpectedConditions.visibilityOfAllElements(nameListElements))
-                .stream()
-                .map(WebElement::getText)
-                .toList();
+        try {
+            List<String> firstNamesList = getDriverWait().until(ExpectedConditions.visibilityOfAllElements(nameListElements))
+                    .stream()
+                    .map(WebElement::getText)
+                    .toList();
+            if (firstNamesList.isEmpty()) {
+                throw new IllegalStateException("The client list is empty");
+            }
+            return firstNamesList;
+        } catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
     }
 
     @Step("Delete average length name customer")
@@ -172,13 +207,15 @@ public class AddCustomerPage extends BasePage {
                 .min(Comparator.comparingDouble(name -> Math.abs(name.length() - averageLengthName)))
                 .orElse(null);
 
+        expectedDeleteName = nameToRemove;
+
         getDriver().findElement(By.xpath(DELETE_CUSTOMER_PATH.formatted(nameToRemove))).click();
         return this;
     }
 
     @Step("Get customer data")
     public List<String> getCustomerData() {
-        return getWait5().until(ExpectedConditions.visibilityOfAllElements(customerData))
+        return getDriverWait().until(ExpectedConditions.visibilityOfAllElements(customerData))
                 .stream()
                 .map(WebElement::getText)
                 .toList();

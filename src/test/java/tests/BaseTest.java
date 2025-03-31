@@ -13,17 +13,17 @@ import java.time.Duration;
 public abstract class BaseTest {
 
     private WebDriver driver;
-    private WebDriverWait wait5;
+    private WebDriverWait driverWait;
 
     protected WebDriver getDriver() {
         return driver;
     }
 
-    protected WebDriverWait getWait5() {
-        if (wait5 == null) {
-            wait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+    protected WebDriverWait getDriverWait() {
+        if (driverWait == null) {
+            driverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         }
-        return wait5;
+        return driverWait;
     }
 
     @BeforeMethod
@@ -36,7 +36,7 @@ public abstract class BaseTest {
             }
             driver = new ChromeDriver(options);
             driver.manage().window().setSize(new Dimension(1920, 1080));
-        getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/manager");
+            getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/manager");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,7 +46,7 @@ public abstract class BaseTest {
     public void tearDown() {
         if (driver != null) {
             driver.quit();
-            wait5 = null;
+            driverWait = null;
         }
     }
 }

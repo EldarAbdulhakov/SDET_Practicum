@@ -53,7 +53,6 @@
                 <headless>false</headless>
             </systemPropertyVariables>
             <suiteXmlFiles>
-                <suiteXmlFile>src/test/resources/testng-default.xml</suiteXmlFile>
                 <suiteXmlFile>src/test/resources/testng-parallel.xml</suiteXmlFile>
             </suiteXmlFiles>
         </configuration>

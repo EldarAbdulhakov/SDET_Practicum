@@ -15,8 +15,7 @@ public class CustomerTest extends BaseTest {
     @Description("Checking the addition of a new client")
     public void testAddCustomer() {
         List<String> customerData = new AddCustomerPage(getDriver())
-                .waitUntilOpen()
-                .clickAddCustomerButton()
+                .waitUntilOpenAddCustomerPage()
                 .inputPostCode()
                 .inputFirstName()
                 .inputLastName()
@@ -32,36 +31,33 @@ public class CustomerTest extends BaseTest {
     @Description("Checking sorting in reverse alphabetical order by name")
     public void testReverseSortFirstNames() {
         List<String> customerNamesReverseSort = new AddCustomerPage(getDriver())
-                .waitUntilOpen()
-                .clickCustomersButton()
+                .waitUntilOpenCustomersPage()
                 .clickFirstNameLink()
                 .getFirstNamesList();
 
-        Assert.assertEquals(customerNamesReverseSort, AddCustomerPage.REVERSE_SORT_FIRST_NAMES);
+        Assert.assertEquals(customerNamesReverseSort, (new AddCustomerPage(getDriver())).getReverseSortFirstNames());
     }
 
     @Test
     @Description("Checking sorting in alphabetical order by name")
     public void testSortFirstNames() {
         List<String> customerNamesSort = new AddCustomerPage(getDriver())
-                .waitUntilOpen()
-                .clickCustomersButton()
+                .waitUntilOpenCustomersPage()
                 .clickFirstNameLink()
                 .clickFirstNameLink()
                 .getFirstNamesList();
 
-        Assert.assertEquals(customerNamesSort, AddCustomerPage.SORT_FIRST_NAMES);
+        Assert.assertEquals(customerNamesSort, (new AddCustomerPage(getDriver())).getSortFirstNames());
     }
 
     @Test
     @Description("Check for deletion of a client with a name length approximating the arithmetic mean of the lengths of all names")
     public void testDeleteAverageLengthNameCustomer() {
         List<String> customerNamesAfterDelete = new AddCustomerPage(getDriver())
-                .waitUntilOpen()
-                .clickCustomersButton()
+                .waitUntilOpenCustomersPage()
                 .deleteAverageLengthNameCustomer()
                 .getFirstNamesList();
 
-        Assert.assertListNotContainsObject(customerNamesAfterDelete, AddCustomerPage.DELETE_NAME, AddCustomerPage.DELETE_NAME);
+        Assert.assertListNotContainsObject(customerNamesAfterDelete, AddCustomerPage.expectedDeleteName, AddCustomerPage.expectedDeleteName);
     }
 }
