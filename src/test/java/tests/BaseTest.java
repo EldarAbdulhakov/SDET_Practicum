@@ -36,7 +36,6 @@ public abstract class BaseTest {
             }
             driver = new ChromeDriver(options);
             driver.manage().window().setSize(new Dimension(1920, 1080));
-            getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/manager");
         } catch (Exception e) {
             e.printStackTrace();
         }
