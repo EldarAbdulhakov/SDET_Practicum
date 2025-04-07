@@ -1,0 +1,45 @@
+<div>PATCH to http://localhost:8080/api/patch/2</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;addition&quot;: {
+        &quot;additional_info&quot;: &quot;Дополнительные сведения изменились&quot;,
+        &quot;additional_number&quot;: 100500
+    },
+    &quot;important_numbers&quot;: [
+        900,
+        800,
+        700
+    ],
+    &quot;title&quot;: &quot;Заголовок сущности, который изменился&quot;,
+    &quot;verified&quot;: false
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X PATCH &#39;http://localhost:8080/api/patch/2&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;addition&quot;: {
+        &quot;additional_info&quot;: &quot;Дополнительные сведения изменились&quot;,
+        &quot;additional_number&quot;: 100500
+    },
+    &quot;important_numbers&quot;: [
+        900,
+        800,
+        700
+    ],
+    &quot;title&quot;: &quot;Заголовок сущности, который изменился&quot;,
+    &quot;verified&quot;: false
+}&#39;
+    </div>
+
