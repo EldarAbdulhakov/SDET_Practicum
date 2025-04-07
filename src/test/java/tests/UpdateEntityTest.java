@@ -3,30 +3,44 @@ package tests;
 import helpers.BaseRequests;
 import io.qameta.allure.Description;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
+import models.Addition;
+import models.Entity;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pojo.Request.Addition;
-import pojo.Request.Entity;
 
 import java.util.List;
 
 public class UpdateEntityTest {
 
+    private RequestSpecification requestSpecification;
+
+    @BeforeClass
+    public void setup() {
+        requestSpecification = BaseRequests.initRequestSpecification();
+    }
+
     @Test
     @Description("Checking the update entity")
     public void testUpdateEntity() {
-        Entity entity = new Entity(new Addition("Дополнительные сведения изменились", 100500),
-                List.of(900, 800, 700), "Заголовок сущности, который изменился", false);
+        Entity entity = Entity.builder().
+                title("Заголовок сущности, который изменился").
+                important_numbers(List.of(900, 800, 700))
+                .verified(false)
+                .addition(Addition.builder()
+                        .additional_info("Дополнительные сведения изменились")
+                        .additional_number(100500)
+                        .build())
+                .build();
 
         RestAssured
                 .given()
-                .contentType(ContentType.JSON)
+                .spec(requestSpecification)
                 .body(entity)
                 .when()
-                .patch("http://localhost:8080/api/patch/%s".formatted(BaseRequests.getLastEntityId()))
+                .patch("api/patch/%s".formatted(BaseRequests.getLastEntityId()))
                 .then()
-                .log().all()
                 .statusCode(204);
 
         Assert.assertEquals(BaseRequests.getLastEntity().getId(), BaseRequests.expectedLastId);

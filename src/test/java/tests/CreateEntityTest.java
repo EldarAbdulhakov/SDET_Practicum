@@ -2,38 +2,34 @@ package tests;
 
 import helpers.BaseRequests;
 import io.qameta.allure.Description;
-import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
+import models.Entity;
 import org.testng.Assert;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pojo.Request.Addition;
-import pojo.Request.Entity;
-
-import java.util.List;
 
 public class CreateEntityTest {
 
-    @BeforeSuite
-    public static void setup() {
-        RestAssured.filters(new AllureRestAssured());
+    private RequestSpecification requestSpecification;
+
+    @BeforeClass
+    public void setup() {
+        requestSpecification = BaseRequests.initRequestSpecification();
     }
 
     @Test
     @Description("Checking the create entity")
     public void testCreateEntity() {
-        Entity entity = new Entity(new Addition("Дополнительные сведения", 123),
-                List.of(42, 87, 15), "Заголовок сущности", true);
+        Entity entity = Entity.builder().build();
 
         String entityId = RestAssured
                 .given()
-                .contentType(ContentType.JSON)
+                .spec(requestSpecification)
                 .body(entity)
                 .when()
-                .post("http://localhost:8080/api/create")
+                .post("api/create")
                 .then()
-                .log().all()
                 .statusCode(200)
                 .extract()
                 .asString();

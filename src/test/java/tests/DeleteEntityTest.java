@@ -3,10 +3,19 @@ package tests;
 import helpers.BaseRequests;
 import io.qameta.allure.Description;
 import io.restassured.RestAssured;
+import io.restassured.specification.RequestSpecification;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class DeleteEntityTest {
+
+    private RequestSpecification requestSpecification;
+
+    @BeforeClass
+    public void setup() {
+        requestSpecification = BaseRequests.initRequestSpecification();
+    }
 
     @Test
     @Description("Checking the delete first entity")
@@ -15,10 +24,10 @@ public class DeleteEntityTest {
 
         RestAssured
                 .given()
+                .spec(requestSpecification)
                 .when()
-                .delete("http://localhost:8080/api/delete/%s".formatted(BaseRequests.getFirstEntityId()))
+                .delete("api/delete/%s".formatted(BaseRequests.getFirstEntityId()))
                 .then()
-                .log().all()
                 .statusCode(204);
 
         Assert.assertFalse(BaseRequests.getEntityList()
