@@ -42,6 +42,14 @@ public class BaseRequests {
                 .post("api/create");
     }
 
+    public static void deleteLastEntity() {
+        RestAssured
+                .given()
+                .spec(initRequestSpecification())
+                .when()
+                .delete("api/delete/%s".formatted(BaseRequests.getLastEntityId()));
+    }
+
     public static Integer getCountEntities() {
         return RestAssured
                 .given()
@@ -96,5 +104,20 @@ public class BaseRequests {
                 .get("api/get/%s".formatted(BaseRequests.getLastEntityId()))
                 .then()
                 .extract().as(Entity.class);
+    }
+
+    public static Optional<Entity> getEntityById(Integer id) {
+        List<Entity> entity = RestAssured
+                .given()
+                .spec(initRequestSpecification())
+                .when()
+                .get("api/getAll")
+                .then()
+                .extract().body().jsonPath().getList("entity", Entity.class);
+
+        return entity
+                .stream()
+                .filter(obj -> obj.getId().equals(id))
+                .findFirst();
     }
 }

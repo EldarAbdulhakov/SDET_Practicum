@@ -7,7 +7,9 @@ import io.restassured.specification.RequestSpecification;
 import models.Addition;
 import models.Entity;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -19,6 +21,16 @@ public class UpdateEntityTest {
     @BeforeClass
     public void setup() {
         requestSpecification = BaseRequests.initRequestSpecification();
+    }
+
+    @BeforeMethod
+    public void createEntity() {
+        BaseRequests.createEntity();
+    }
+
+    @AfterMethod
+    public void deleteEntity() {
+        BaseRequests.deleteLastEntity();
     }
 
     @Test
@@ -43,9 +55,11 @@ public class UpdateEntityTest {
                 .then()
                 .statusCode(204);
 
-        Assert.assertEquals(BaseRequests.getLastEntity().getId(), BaseRequests.expectedLastId);
-        Assert.assertEquals(BaseRequests.getLastEntity().getTitle(), entity.getTitle());
-        Assert.assertEquals(BaseRequests.getLastEntity().getVerified(), entity.getVerified());
-        Assert.assertEquals(BaseRequests.getLastEntity().getImportant_numbers(), entity.getImportant_numbers());
+        Entity lastEntity = BaseRequests.getLastEntity();
+
+        Assert.assertEquals(lastEntity.getId(), BaseRequests.expectedLastId);
+        Assert.assertEquals(lastEntity.getTitle(), entity.getTitle());
+        Assert.assertEquals(lastEntity.getVerified(), entity.getVerified());
+        Assert.assertEquals(lastEntity.getImportant_numbers(), entity.getImportant_numbers());
     }
 }

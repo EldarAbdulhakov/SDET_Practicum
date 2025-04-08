@@ -6,6 +6,7 @@ import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class DeleteEntityTest {
@@ -17,10 +18,14 @@ public class DeleteEntityTest {
         requestSpecification = BaseRequests.initRequestSpecification();
     }
 
+    @BeforeMethod
+    public void createEntity() {
+        BaseRequests.createEntity();
+    }
+
     @Test
     @Description("Checking the delete first entity")
     public void testDeleteEntity() {
-        BaseRequests.createEntity();
 
         RestAssured
                 .given()

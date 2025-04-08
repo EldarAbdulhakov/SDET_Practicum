@@ -6,7 +6,9 @@ import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import models.Entity;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -18,6 +20,16 @@ public class GetEntityTest {
     @BeforeClass
     public void setup() {
         requestSpecification = BaseRequests.initRequestSpecification();
+    }
+
+    @BeforeMethod
+    public void createEntity() {
+        BaseRequests.createEntity();
+    }
+
+    @AfterMethod
+    public void deleteEntity() {
+        BaseRequests.deleteLastEntity();
     }
 
     @Test
