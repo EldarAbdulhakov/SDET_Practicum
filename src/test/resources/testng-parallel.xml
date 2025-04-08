@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="ParallelTestSuite" parallel="methods" thread-count="6" verbose="1">
+    <test name="test1">
+        <classes>
+            <class name="tests.CreateEntityTest"/>
+            <class name="tests.DeleteEntityTest"/>
+            <class name="tests.UpdateEntityTest"/>
+        </classes>
+    </test>
+    <test name="test2">
+        <classes>
+            <class name="tests.GetEntityTest"/>
+        </classes>
+    </test>
+</suite>
