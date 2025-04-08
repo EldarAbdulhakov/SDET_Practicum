@@ -5,6 +5,10 @@
             <class name="tests.CreateEntityTest"/>
             <class name="tests.DeleteEntityTest"/>
             <class name="tests.UpdateEntityTest"/>
+        </classes>
+    </test>
+    <test name="test2">
+        <classes>
             <class name="tests.GetEntityTest"/>
         </classes>
     </test>
