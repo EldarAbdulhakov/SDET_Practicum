@@ -1,0 +1,7 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Tue Apr 08 15:00:45 GMT 2025","Tue Apr 08 15:00:45 GMT 2025","142","ParallelTestSuite","test2","tests.GetEntityTest","tests.GetEntityTest","testGetAllEntitiesParameterized","testGetAllEntitiesParameterized","Checking the get all entities with all parameters"
+"passed","Tue Apr 08 15:00:42 GMT 2025","Tue Apr 08 15:00:45 GMT 2025","2368","ParallelTestSuite","test1","tests.CreateEntityTest","tests.CreateEntityTest","testCreateEntity","testCreateEntity","Checking the create entity"
+"passed","Tue Apr 08 15:00:45 GMT 2025","Tue Apr 08 15:00:45 GMT 2025","151","ParallelTestSuite","test2","tests.GetEntityTest","tests.GetEntityTest","testGetAllEntities","testGetAllEntities","Checking the get all entities"
+"passed","Tue Apr 08 15:00:44 GMT 2025","Tue Apr 08 15:00:45 GMT 2025","900","ParallelTestSuite","test1","tests.UpdateEntityTest","tests.UpdateEntityTest","testUpdateEntity","testUpdateEntity","Checking the update entity"
+"passed","Tue Apr 08 15:00:45 GMT 2025","Tue Apr 08 15:00:45 GMT 2025","169","ParallelTestSuite","test2","tests.GetEntityTest","tests.GetEntityTest","testGetEntity","testGetEntity","Checking the get last entity"
+"passed","Tue Apr 08 15:00:44 GMT 2025","Tue Apr 08 15:00:45 GMT 2025","858","ParallelTestSuite","test1","tests.DeleteEntityTest","tests.DeleteEntityTest","testDeleteEntity","testDeleteEntity","Checking the delete first entity"
